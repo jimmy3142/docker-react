@@ -1,0 +1,29 @@
+version: '3'
+services:
+#  you can call this service whatever you want. here we called it 'web'
+#  It should make sense to the container that is created
+  web:
+    build:
+#      this specifies where we want all the files and folders for this image to be pulled from i.e.
+#      the directory where this docker-compose.yml lives
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - '3000:3000'
+    volumes:
+#      this says, "do not try to map a folder up against /app/node_modules inside of the container"
+      - /app/node_modules
+#      maps the current folder outside of the container to the /app folder inside of the container
+      - .:/app
+    stdin_open: true
+
+  tests:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    volumes:
+      - /app/node_modules
+      - .:/app
+    command: ["nmp", "run", "test"]
+
+
