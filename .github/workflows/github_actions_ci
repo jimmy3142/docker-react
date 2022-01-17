@@ -1,0 +1,10 @@
+name: CI Test Frontend
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: docker build -t jameswatkins/docker-react -f Dockerfile.dev .
+      - run: docker run -e CI=true jameswatkins/docker-react npm test
